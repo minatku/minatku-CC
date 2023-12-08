@@ -1,95 +1,88 @@
-from flask_restx import Resource, Namespace, reqparse
-from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_token, current_user
+from flask import request
+from flask_restx import Resource, Namespace, fields
 from werkzeug.security import generate_password_hash, check_password_hash
-
-from .api_models import user_model
-from .extensions import db
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+from .extensions import api, db
 from .models import User
 
-authorizations = {
-    "jsonWebToken": {
-        "type": "apiKey",
-        "in": "header",
-        "name": "Authorization"
-    }
-}
-ns = Namespace("api", authorizations=authorizations)
+# Namespace
+ns = Namespace("auth", description="Authentication")
 
-@ns.route("/hello")
-class Hello(Resource):
-    def get(self):
-        return {"hello": "restx"}
+# User model for request parsing
+user_model = ns.model(
+    "User",
+    {
+        "email": fields.String(required=True),
+        "username": fields.String(required=True),
+        "nama_lengkap": fields.String(required=True),
+        "password": fields.String(required=True),
+        "tanggal_lahir": fields.Date(required=True),
+        "gender": fields.String(required=True),
+        "no_telepon": fields.String(required=True),
+        "lokasi": fields.String(required=True),
+        "is_premium": fields.Boolean(required=True),
+        "id_major": fields.Integer(required=True),
+        "foto_profil": fields.String(required=True),
+    },
+)
 
-@ns.route("/users")
-class UserListAPI(Resource):
-    method_decorators = [jwt_required()]
-
-    @ns.doc(security="jsonWebToken")
-    @ns.marshal_list_with(user_model)
-    def get(self):
-        return User.query.all()
-
-@ns.route("/users/<int:id>")
-class UserAPI(Resource):
-    method_decorators = [jwt_required()]
-
-    @ns.marshal_with(user_model)
-    def get(self, id):
-        user = User.query.get(id)
-        return user
-
-    def delete(self, id):
-        user = User.query.get(id)
-        db.session.delete(user)
-        db.session.commit()
-        return {}, 204
-
-
+# Endpoint for user registration
 @ns.route("/register")
 class Register(Resource):
-
     @ns.expect(user_model, validate=True)
-    @ns.marshal_with(user_model)
     def post(self):
-        try:
-            # Ambil data dari payload
-            username = ns.payload["username"]
-            password = ns.payload["password"]
-
-            # Hash password
-            password_hash = generate_password_hash(password)
-
-            # Buat objek User
-            user = User(username=username, password_hash=password_hash)
-
-            # Tambahkan ke session dan commit ke database
-            db.session.add(user)
-            db.session.commit()
-
-            return user, 201
-        except Exception as e:
-            # Tangkap kesalahan dan kirim respons kesalahan
-            return {"error": str(e)}, 500
+        data = request.get_json()
+        hashed_password = generate_password_hash(data["password"], method="sha256")
+        new_user = User(**data, password=hashed_password)
+        db.session.add(new_user)
+        db.session.commit()
+        return {"message": "User registered successfully"}, 201
 
 
+# Endpoint for user login
 @ns.route("/login")
 class Login(Resource):
-
-    @ns.expect(user_model)
+    @ns.expect(user_model, validate=True)
     def post(self):
-        parser = reqparse.RequestParser()
-        parser.add_argument("password", type=str, required=True)
-        args = parser.parse_args()
+        data = request.get_json()
+        user = User.query.filter_by(username=data["username"]).first()
 
-        user = User.query.filter_by(username=ns.payload["username"]).first()
-        if not user:
-            return {"error": "User does not exist"}, 401
-        if not check_password_hash(user.password_hash, args["password"]):
-            return {"error": "Incorrect password"}, 401
-        return {"access_token": create_access_token(user)}
+        if user and check_password_hash(user.password, data["password"]):
+            access_token = create_access_token(identity=user.id_user)
+            return {"access_token": access_token}, 200
+        else:
+            return {"message": "Invalid credentials"}, 401
 
-@ns.route("/all-users")
-class AllUsersAPI(Resource):
-    @ns.marshal_list_with(user_model)
+
+# Endpoint for user logout
+@ns.route("/logout")
+class Logout(Resource):
+    @jwt_required()
+    def post(self):
+        return {"message": "User logged out successfully"}, 200
+
+
+# Endpoint for getting user data
+@ns.route("/user")
+class GetUserData(Resource):
+    @jwt_required()
     def get(self):
-        return User.query.all()
+        current_user_id = get_jwt_identity()
+        user = User.query.get(current_user_id)
+        if user:
+            user_data = {
+                "id_user": user.id_user,
+                "email": user.email,
+                "username": user.username,
+                "nama_lengkap": user.nama_lengkap,
+                "tanggal_lahir": user.tanggal_lahir.isoformat(),
+                "gender": user.gender,
+                "no_telepon": user.no_telepon,
+                "lokasi": user.lokasi,
+                "is_premium": user.is_premium,
+                "id_major": user.id_major,
+                "foto_profil": user.foto_profil,
+            }
+            return user_data, 200
+        else:
+            return {"message": "User not found"}, 404
