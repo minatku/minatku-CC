@@ -2,45 +2,69 @@ from flask_restx import fields
 
 from .extensions import api 
 
-student_model = api.model("Student", {
-    "id": fields.Integer,
-    "name": fields.String,
-    # "course": fields.Nested(course_model)  # Uncomment this line if needed
+# Assuming you have a feature named 'input' for prediction
+predict_model = api.model('PredictModel', {
+    'input': fields.List(fields.Integer, required=True, description='List of integers representing the feature vector'),
 })
 
-course_model = api.model("Course", {
-    "id": fields.Integer,
-    "name": fields.String,
-    "students": fields.List(fields.Nested(student_model))
-})
+# User model for request parsing
+user_model = api.model(
+    "User",
+    {
+        "email": fields.String(required=True),
+        "username": fields.String(required=True),
+        "nama_lengkap": fields.String(required=True),
+        "password": fields.String(required=True),
+        "tanggal_lahir": fields.Date(required=True),
+        "gender": fields.String(required=True),
+        "no_telepon": fields.String(required=True),
+        "lokasi": fields.String(required=True),
+        "is_premium": fields.Boolean(required=True),
+        "id_major": fields.Integer(required=True),
+        "foto_profil": fields.String(required=True),
+    },
+)
 
-course_input_model = api.model("CourseInput", {
-    "name": fields.String,
-})
+user_registration_model = api.model(
+    "UserRegistration",
+    {
+        "email": fields.String(required=True),
+        "username": fields.String(required=True),
+        "nama_lengkap": fields.String(required=True),
+        "password": fields.String(required=True),
+    },
+)
 
-student_input_model = api.model("StudentInput", {
-    "name": fields.String,
-    "course_id": fields.Integer
-})
-
-user_model = api.model("User", {
-    "id_user": fields.Integer,
+login_model = api.model("LoginModel", {
     "email": fields.String,
-    "username": fields.String,
-    "nama_lengkap": fields.String,
-    "password": fields.String,
-    "tanggal_lahir": fields.Date,
-    "gender": fields.String,
-    "no_telepon": fields.String,
-    "lokasi": fields.String,
-    "is_premium": fields.Boolean,
-    "id_major": fields.Integer,
-    "foto_profil": fields.String
+    "password": fields.String
 })
 
-user_input_model = api.model("UserInput", {
-    "email": fields.String,
-    "username": fields.String,
-    "nama_lengkap": fields.String,
-    "password": fields.String,
-})
+# User model for request parsing
+user_edit_model = api.model(
+    "UserEdit",
+    {
+        "email": fields.String,
+        "username": fields.String,
+        "nama_lengkap": fields.String,
+        "tanggal_lahir": fields.Date,
+        "gender": fields.String,
+        "no_telepon": fields.String,
+        "lokasi": fields.String,
+        "is_premium": fields.Boolean,
+        "id_major": fields.Integer,
+        "foto_profil": fields.String,
+    },
+)
+
+# Model for pertanyaan
+pertanyaan_model = api.model(
+    "Pertanyaan",
+    {
+        "id_pertanyaan": fields.Integer,
+        "isi_pertanyaan": fields.String(required=True),
+        "kode": fields.String(required=True),
+        "kelas_pertanyaan": fields.String(required=True),
+    },
+)
+
