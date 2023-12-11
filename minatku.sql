@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 09 Des 2023 pada 15.53
+-- Waktu pembuatan: 11 Des 2023 pada 15.13
 -- Versi server: 10.4.27-MariaDB
 -- Versi PHP: 8.2.0
 
@@ -20,6 +20,31 @@ SET time_zone = "+00:00";
 --
 -- Database: `minatku`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `major_predict`
+--
+
+CREATE TABLE `major_predict` (
+  `id_major_predict` int(11) NOT NULL,
+  `top_1` varchar(50) NOT NULL,
+  `top_2` varchar(50) NOT NULL,
+  `top_3` varchar(50) NOT NULL,
+  `top_4` varchar(50) NOT NULL,
+  `top_5` varchar(50) NOT NULL,
+  `tanggal` datetime NOT NULL DEFAULT current_timestamp(),
+  `id_user` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `major_predict`
+--
+
+INSERT INTO `major_predict` (`id_major_predict`, `top_1`, `top_2`, `top_3`, `top_4`, `top_5`, `tanggal`, `id_user`) VALUES
+(1, 'Science', 'Technology', 'Social', 'Arts and Literature', 'Economics', '2023-12-11 21:09:31', 1),
+(2, 'Technology', 'Science', 'Social', 'Economics', 'Arts and Literature', '2023-12-11 21:10:02', 1);
 
 -- --------------------------------------------------------
 
@@ -69,7 +94,6 @@ CREATE TABLE `user` (
   `no_telepon` varchar(15) DEFAULT NULL,
   `lokasi` varchar(100) DEFAULT NULL,
   `is_premium` tinyint(1) DEFAULT NULL,
-  `id_major` int(11) DEFAULT NULL,
   `foto_profil` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -77,15 +101,19 @@ CREATE TABLE `user` (
 -- Dumping data untuk tabel `user`
 --
 
-INSERT INTO `user` (`id_user`, `email`, `username`, `nama_lengkap`, `password`, `tanggal_lahir`, `gender`, `no_telepon`, `lokasi`, `is_premium`, `id_major`, `foto_profil`) VALUES
-(7, 'your_email@example.com', 'your_username', 'Your Full Name', 'sha256$cA6s5TzAATMk7POU$1824bfcfbf6a1aff4306e5eae3c80fb6e358727a7d3bb4899e4382068db8498b', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(8, 'your_emal@example.com', 'your_usrname', 'Your Full Name', 'sha256$M0bbAd9irkkYXecG$0e576f62e108ce96ae2d32d86165978540c178d6b46afea2c67ece44758ceaa8', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(9, 'string', 'string', 'string', 'sha256$XkehOIzKjo8ctCJX$1a65e9d2d98d48199715f809ada43ade3ade59eb107b846eb5980a59a85e0975', '2023-12-09', '', 'string', 'string', 1, 0, 'string'),
-(10, 'coba@gmail.com', 'cobain', 'nyoba aja', 'sha256$DXAtmkmlYwTSb5mx$4a62ade0c33d25991cc461a8043162d3b34e9641e2a1adf935092e9c8b4eb724', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user` (`id_user`, `email`, `username`, `nama_lengkap`, `password`, `tanggal_lahir`, `gender`, `no_telepon`, `lokasi`, `is_premium`, `foto_profil`) VALUES
+(1, 'test1@gmail.com', 'test1', 'test 1', 'sha256$u5d7e59uIqUu1uxT$696e4161b318fd7fa28df18dbfed1aed592437945dc4fa1da2ef2bae78e06b0b', NULL, NULL, NULL, NULL, NULL, NULL);
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indeks untuk tabel `major_predict`
+--
+ALTER TABLE `major_predict`
+  ADD PRIMARY KEY (`id_major_predict`),
+  ADD KEY `id_user` (`id_user`);
 
 --
 -- Indeks untuk tabel `pertanyaan`
@@ -106,6 +134,12 @@ ALTER TABLE `user`
 --
 
 --
+-- AUTO_INCREMENT untuk tabel `major_predict`
+--
+ALTER TABLE `major_predict`
+  MODIFY `id_major_predict` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT untuk tabel `pertanyaan`
 --
 ALTER TABLE `pertanyaan`
@@ -115,7 +149,17 @@ ALTER TABLE `pertanyaan`
 -- AUTO_INCREMENT untuk tabel `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
+--
+
+--
+-- Ketidakleluasaan untuk tabel `major_predict`
+--
+ALTER TABLE `major_predict`
+  ADD CONSTRAINT `major_predict_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

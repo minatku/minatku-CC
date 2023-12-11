@@ -1,6 +1,6 @@
 from flask_restx import Resource, Namespace
 from flask import request
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+from flask_jwt_extended import create_access_token, jwt_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from .extensions import db
 from .models import *
@@ -8,8 +8,8 @@ from .api_models import *
 from flask import jsonify
 import numpy as np
 from sklearn.preprocessing import normalize
-import tensorflow as tf
 from keras.models import load_model
+from datetime import datetime
 
 classes = ['Science', 'Arts and Literature', 'Economics', 'Technology', 'Social']
 authorizations = {
@@ -55,8 +55,53 @@ class PredictResource(Resource):
             "all_prediction_class": sorted_indices,
             "all_prediction_labels": sorted_classes,
         }
+
+        # Save the prediction result to the database
+        save_to_database(result)
+
         return jsonify(result)
 
+def save_to_database(prediction_result):
+    # Create a new MajorPredict entry
+    major_predict_entry = MajorPredict(
+        top_1=classes[prediction_result["all_prediction_class"][0]],
+        top_2=classes[prediction_result["all_prediction_class"][1]],
+        top_3=classes[prediction_result["all_prediction_class"][2]],
+        top_4=classes[prediction_result["all_prediction_class"][3]],
+        top_5=classes[prediction_result["all_prediction_class"][4]],
+        id_user=current_user.id_user,
+        tanggal=datetime.now(),
+    )
+
+    # Add and commit the new entry to the database
+    db.session.add(major_predict_entry)
+    db.session.commit()
+
+
+@ns.route("/whoami")
+class WhoAmI(Resource):
+    method_decorators = [jwt_required()]
+
+    @ns.doc(security="jsonWebToken")
+    def get(self):
+        return jsonify(
+        {
+            "message": "data user yang sedang login",
+            "user_details": {
+                "id_user": current_user.id_user,
+                "email": current_user.email,
+                "username": current_user.username,
+                "nama_lengkap": current_user.nama_lengkap,
+                "tanggal_lahir": current_user.tanggal_lahir.isoformat() if current_user.tanggal_lahir else None,
+                "gender": current_user.gender,
+                "no_telepon": current_user.no_telepon,
+                "lokasi": current_user.lokasi,
+                "is_premium": current_user.is_premium,
+                "id_major_predict": current_user.id_major_predict,
+                "foto_profil": current_user.foto_profil,
+            },
+        }
+    )
 
 # Endpoint for user registration
 @ns.route("/register")
@@ -117,7 +162,7 @@ class GetAllUsers(Resource):
                 "no_telepon": user.no_telepon,
                 "lokasi": user.lokasi,
                 "is_premium": user.is_premium,
-                "id_major": user.id_major,
+                "id_major_predict": user.id_major_predict,
                 "foto_profil": user.foto_profil,
             }
             for user in users
@@ -143,7 +188,7 @@ class UserById(Resource):
                 "no_telepon": user.no_telepon,
                 "lokasi": user.lokasi,
                 "is_premium": user.is_premium,
-                "id_major": user.id_major,
+                "id_major_predict": user.id_major_predict,
                 "foto_profil": user.foto_profil,
             }
             return user_data, 200
@@ -165,7 +210,7 @@ class UserById(Resource):
             user.no_telepon = data.get("no_telepon", user.no_telepon)
             user.lokasi = data.get("lokasi", user.lokasi)
             user.is_premium = data.get("is_premium", user.is_premium)
-            user.id_major = data.get("id_major", user.id_major)
+            user.id_major_predict = data.get("id_major_predict", user.id_major_predict)
             user.foto_profil = data.get("foto_profil", user.foto_profil)
             db.session.commit()
             return {"message": "User updated successfully"}, 200
