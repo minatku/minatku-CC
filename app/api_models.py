@@ -2,9 +2,25 @@ from flask_restx import fields
 
 from .extensions import api 
 
-predict_model = api.model('PredictModel', {
+input_predict_model = api.model('PredictModel', {
     'input': fields.List(fields.Integer, required=True, description='List of integers representing the feature vector'),
 })
+
+# Model for Major Predict
+major_predict_model = api.model(
+    "MajorPredict",
+    {
+        "id_major_predict": fields.Integer,
+        "top_1": fields.String(required=True),
+        "top_2": fields.String(required=True),
+        "top_3": fields.String(required=True),
+        "top_4": fields.String(required=True),
+        "top_5": fields.String(required=True),
+        "id_user":fields.String(required=True),
+        "create_at": fields.DateTime,
+        "update_at": fields.DateTime,
+    },
+)
 
 # User model for request parsing
 user_model = api.model(
@@ -21,6 +37,8 @@ user_model = api.model(
         "lokasi": fields.String(required=True),
         "is_premium": fields.Boolean(required=True),
         "foto_profil": fields.String(required=True),
+        "create_at": fields.DateTime,
+        "update_at": fields.DateTime,
     },
 )
 
@@ -63,6 +81,7 @@ pertanyaan_model = api.model(
         "isi_pertanyaan": fields.String(required=True),
         "kode": fields.String(required=True),
         "kelas_pertanyaan": fields.String(required=True),
+        "create_at": fields.DateTime,
+        "update_at": fields.DateTime,
     },
 )
-

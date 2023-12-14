@@ -6,7 +6,7 @@ from .models import User
 def create_app():
     app = Flask(__name__)
 
-    app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://root:@localhost/minatku"
+    app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://root:@localhost/db_minatku"
     app.config["JWT_SECRET_KEY"] = "thisisasecret"
   
     api.init_app(app)

@@ -14,7 +14,8 @@ class User(db.Model):
     lokasi = db.Column(db.String(100))
     is_premium = db.Column(db.Boolean)
     foto_profil = db.Column(db.String(255))
-    major_predict = relationship('MajorPredict', back_populates='user')
+    create_at = db.Column(db.DateTime, default=datetime.now)
+    update_at = db.Column(db.DateTime)
 
 class MajorPredict(db.Model):
     id_major_predict = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -23,16 +24,14 @@ class MajorPredict(db.Model):
     top_3 = db.Column(db.String(50), nullable=False)
     top_4 = db.Column(db.String(50), nullable=False)
     top_5 = db.Column(db.String(50), nullable=False)
-    tanggal = db.Column(db.DateTime, default=datetime.now, nullable=False)
     id_user = db.Column(db.Integer, db.ForeignKey('user.id_user'), nullable=False)
-
-    user = relationship('User', back_populates='major_predict')
-
+    create_at = db.Column(db.DateTime, default=datetime.now)
+    update_at = db.Column(db.DateTime)
 
 class Pertanyaan(db.Model):
     id_pertanyaan = db.Column(db.Integer, primary_key=True, autoincrement=True)
     isi_pertanyaan = db.Column(db.String(255), nullable=False)
     kode = db.Column(db.String(10), unique=True, nullable=False)
     kelas_pertanyaan = db.Column(db.String(50), nullable=False)
-
-
+    create_at = db.Column(db.DateTime, default=datetime.now)
+    update_at = db.Column(db.DateTime)

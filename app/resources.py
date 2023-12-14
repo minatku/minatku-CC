@@ -31,7 +31,7 @@ class PredictResource(Resource):
     method_decorators = [jwt_required()]
 
     @ns.doc(security="jsonWebToken")
-    @ns.expect(predict_model, validate=True)
+    @ns.expect(input_predict_model, validate=True)
     def post(self):
         data = request.get_json()
         input_data = data["input"]
@@ -55,12 +55,8 @@ class PredictResource(Resource):
             "all_prediction_class": sorted_indices,
             "all_prediction_labels": sorted_classes,
         }
-
-        # Save the prediction result to the database
         save_to_database(result)
-
         return jsonify(result)
-
 def save_to_database(prediction_result):
     # Create a new MajorPredict entry
     major_predict_entry = MajorPredict(
@@ -70,38 +66,12 @@ def save_to_database(prediction_result):
         top_4=classes[prediction_result["all_prediction_class"][3]],
         top_5=classes[prediction_result["all_prediction_class"][4]],
         id_user=current_user.id_user,
-        tanggal=datetime.now(),
+        create_at=datetime.now()
     )
 
     # Add and commit the new entry to the database
     db.session.add(major_predict_entry)
     db.session.commit()
-
-
-@ns.route("/whoami")
-class WhoAmI(Resource):
-    method_decorators = [jwt_required()]
-
-    @ns.doc(security="jsonWebToken")
-    def get(self):
-        return jsonify(
-        {
-            "message": "data user yang sedang login",
-            "user_details": {
-                "id_user": current_user.id_user,
-                "email": current_user.email,
-                "username": current_user.username,
-                "nama_lengkap": current_user.nama_lengkap,
-                "tanggal_lahir": current_user.tanggal_lahir.isoformat() if current_user.tanggal_lahir else None,
-                "gender": current_user.gender,
-                "no_telepon": current_user.no_telepon,
-                "lokasi": current_user.lokasi,
-                "is_premium": current_user.is_premium,
-                "id_major_predict": current_user.id_major_predict,
-                "foto_profil": current_user.foto_profil,
-            },
-        }
-    )
 
 # Endpoint for user registration
 @ns.route("/register")
@@ -127,6 +97,7 @@ class Register(Resource):
             username=data["username"],
             nama_lengkap=data["nama_lengkap"],
             password=hashed_password,
+            create_at=datetime.now(),
         )
         db.session.add(new_user)
         db.session.commit()
@@ -145,30 +116,62 @@ class Login(Resource):
         create_access_token(user.email)
         return {"access_token": create_access_token(user.email)}
     
+@ns.route("/whoami")
+class WhoAmI(Resource):
+    method_decorators = [jwt_required()]
 
-# Endpoint for getting all users
-@ns.route('/users')
-class GetAllUsers(Resource):
+    @ns.doc(security="jsonWebToken")
     def get(self):
-        users = User.query.all()
-        users_data = [
-            {
-                "id_user": user.id_user,
-                "email": user.email,
-                "username": user.username,
-                "nama_lengkap": user.nama_lengkap,
-                "tanggal_lahir": user.tanggal_lahir.isoformat() if user.tanggal_lahir else None,
-                "gender": user.gender,
-                "no_telepon": user.no_telepon,
-                "lokasi": user.lokasi,
-                "is_premium": user.is_premium,
-                "id_major_predict": user.id_major_predict,
-                "foto_profil": user.foto_profil,
-            }
-            for user in users
-        ]
-        return users_data
+        user_details = {
+            "id_user": current_user.id_user,
+            "email": current_user.email,
+            "username": current_user.username,
+            "nama_lengkap": current_user.nama_lengkap,
+            "tanggal_lahir": current_user.tanggal_lahir.isoformat() if current_user.tanggal_lahir else None,
+            "gender": current_user.gender,
+            "no_telepon": current_user.no_telepon,
+            "lokasi": current_user.lokasi,
+            "is_premium": current_user.is_premium,
+            "foto_profil": current_user.foto_profil,
+            "create_at": current_user.create_at.isoformat() if current_user.create_at else None,
+            "update_at": current_user.update_at.isoformat() if current_user.update_at else None,
+        }
+        return jsonify({
+            "message": "Data user yang sedang login",
+            "user_details": user_details,
+        })
 
+
+@ns.route("/major_predict/<int:user_id>")
+class MajorPredictResource(Resource):
+    method_decorators = [jwt_required()]
+
+    @ns.doc(security="jsonWebToken")
+    def get(self, user_id):
+        # Check if the current user has the permission to access major predict data
+        if current_user.id_user != user_id:
+            return {"error": "Unauthorized access to major predict data"}, 403
+
+        # Query major predict data for the specified user ID
+        major_predict_data = MajorPredict.query.filter_by(id_user=user_id).first()
+
+        if major_predict_data:
+            # Format the major predict results to be returned to the client
+            result = {
+                "id_major_predict": major_predict_data.id_major_predict,
+                "top_1": major_predict_data.top_1,
+                "top_2": major_predict_data.top_2,
+                "top_3": major_predict_data.top_3,
+                "top_4": major_predict_data.top_4,
+                "top_5": major_predict_data.top_5,
+                "id_user":major_predict_data.id_user,
+                "create_at":major_predict_data.create_at,
+                "update_at":major_predict_data.update_at
+            }
+            return jsonify(result)
+        else:
+            return {"message": "Major predict data not found for the specified user"}, 404
+        
 # Endpoint for getting user by ID
 @ns.route("/user/<int:user_id>")
 class UserById(Resource):
@@ -188,9 +191,29 @@ class UserById(Resource):
                 "no_telepon": user.no_telepon,
                 "lokasi": user.lokasi,
                 "is_premium": user.is_premium,
-                "id_major_predict": user.id_major_predict,
                 "foto_profil": user.foto_profil,
+                "create_at": user.create_at.isoformat() if user.create_at else None,
+                "update_at": user.update_at.isoformat() if user.update_at else None,
+                "major_predict": [],
             }
+
+            # Fetch major_predict records for the current user
+            major_predicts = MajorPredict.query.filter_by(id_user=user.id_user).all()
+
+            # Populate major_predict data
+            for major_predict in major_predicts:
+                major_predict_data = {
+                    "top_1": major_predict.top_1,
+                    "top_2": major_predict.top_2,
+                    "top_3": major_predict.top_3,
+                    "top_4": major_predict.top_4,
+                    "top_5": major_predict.top_5,
+                    "create_at": major_predict.create_at.isoformat() if major_predict.create_at else None,
+                    "update_at": major_predict.update_at.isoformat() if major_predict.update_at else None,
+                }
+
+                user_data["major_predict"].append(major_predict_data)
+
             return user_data, 200
         else:
             return {"message": "User not found"}, 404
@@ -210,7 +233,6 @@ class UserById(Resource):
             user.no_telepon = data.get("no_telepon", user.no_telepon)
             user.lokasi = data.get("lokasi", user.lokasi)
             user.is_premium = data.get("is_premium", user.is_premium)
-            user.id_major_predict = data.get("id_major_predict", user.id_major_predict)
             user.foto_profil = data.get("foto_profil", user.foto_profil)
             db.session.commit()
             return {"message": "User updated successfully"}, 200
@@ -226,6 +248,51 @@ class UserById(Resource):
             return {"message": "User deleted successfully"}, 200
         else:
             return {"message": "User not found"}, 404
+
+# Endpoint for getting all users
+@ns.route('/users')
+class GetAllUsers(Resource):
+    def get(self):
+        users = User.query.all()
+        users_data = []
+
+        for user in users:
+            user_data = {
+                "id_user": user.id_user,
+                "email": user.email,
+                "username": user.username,
+                "nama_lengkap": user.nama_lengkap,
+                "tanggal_lahir": user.tanggal_lahir.isoformat() if user.tanggal_lahir else None,
+                "gender": user.gender,
+                "no_telepon": user.no_telepon,
+                "lokasi": user.lokasi,
+                "is_premium": user.is_premium,
+                "foto_profil": user.foto_profil,
+                "create_at":user.create_at,
+                "update_at":user.update_at,
+                "major_predict": [],
+            }
+
+            # Fetch major_predict records for the current user
+            major_predicts = MajorPredict.query.filter_by(id_user=user.id_user).all()
+
+            # Populate major_predict data
+            for major_predict in major_predicts:
+                major_predict_data = {
+                    "top_1": major_predict.top_1,
+                    "top_2": major_predict.top_2,
+                    "top_3": major_predict.top_3,
+                    "top_4": major_predict.top_4,
+                    "top_5": major_predict.top_5,
+                    "create_at": major_predict.create_at.isoformat() if major_predict.create_at else None,
+                    "update_at": major_predict.update_at.isoformat() if major_predict.update_at else None,
+                }
+
+                user_data["major_predict"].append(major_predict_data)
+
+            users_data.append(user_data)
+
+        return users_data
 
 # Menambahkan endpoint pertanyaan ke dalam namespace yang sudah ada
 @ns.route("/pertanyaan")
