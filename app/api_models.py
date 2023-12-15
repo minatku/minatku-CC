@@ -61,15 +61,12 @@ login_model = api.model("LoginModel", {
 user_edit_model = api.model(
     "UserEdit",
     {
-        "email": fields.String,
         "username": fields.String,
         "nama_lengkap": fields.String,
         "tanggal_lahir": fields.Date,
         "gender": fields.String,
         "no_telepon": fields.String,
         "lokasi": fields.String,
-        "is_premium": fields.Boolean,
-        "foto_profil": fields.String,
     },
 )
 

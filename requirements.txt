@@ -16,6 +16,7 @@ Flask-MySQLdb==2.0.0
 flask-restplus==0.13.0
 flask-restx==1.1.0
 Flask-SQLAlchemy==3.0.3
+Flask-Uploads==0.2.1
 flatbuffers==23.5.26
 gast==0.5.4
 google-auth==2.25.2

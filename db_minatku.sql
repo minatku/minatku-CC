@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 14 Des 2023 pada 15.23
+-- Waktu pembuatan: 15 Des 2023 pada 15.54
 -- Versi server: 10.4.27-MariaDB
 -- Versi PHP: 8.2.0
 
@@ -48,7 +48,9 @@ INSERT INTO `major_predict` (`id_major_predict`, `top_1`, `top_2`, `top_3`, `top
 (1, 'Science', 'Technology', 'Social', 'Arts and Literature', 'Economics', '2023-12-11 21:09:31', 1, '2023-12-14 19:19:51', '2023-12-14 19:19:51'),
 (2, 'Technology', 'Science', 'Social', 'Economics', 'Arts and Literature', '2023-12-11 21:10:02', 1, '2023-12-14 19:19:51', '2023-12-14 19:19:51'),
 (3, 'Technology', 'Science', 'Social', 'Economics', 'Arts and Literature', '2023-12-14 20:12:39', 1, '2023-12-14 20:12:39', '2023-12-14 20:12:39'),
-(4, 'Technology', 'Science', 'Social', 'Economics', 'Arts and Literature', '2023-12-14 20:55:58', 3, '2023-12-14 20:55:58', NULL);
+(4, 'Technology', 'Science', 'Social', 'Economics', 'Arts and Literature', '2023-12-14 20:55:58', 3, '2023-12-14 20:55:58', NULL),
+(5, 'Technology', 'Science', 'Social', 'Economics', 'Arts and Literature', '2023-12-15 17:05:57', 4, '2023-12-15 17:05:57', NULL),
+(6, 'Technology', 'Science', 'Social', 'Economics', 'Arts and Literature', '2023-12-15 20:29:47', 4, '2023-12-15 20:29:47', NULL);
 
 -- --------------------------------------------------------
 
@@ -110,9 +112,10 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id_user`, `email`, `username`, `nama_lengkap`, `password`, `tanggal_lahir`, `gender`, `no_telepon`, `lokasi`, `is_premium`, `foto_profil`, `create_at`, `update_at`) VALUES
-(1, 'test1@gmail.com', 'test1', 'test 1', 'sha256$u5d7e59uIqUu1uxT$696e4161b318fd7fa28df18dbfed1aed592437945dc4fa1da2ef2bae78e06b0b', NULL, NULL, NULL, NULL, NULL, NULL, '2023-12-14 19:19:51', '2023-12-14 19:19:51'),
-(2, 'coba@gmail.com', 'coba', 'coba coba', 'sha256$Rpf2vNLlv46pVtep$7d18e89d973e7b4df1d05ba25809e72b78f7ef7ca4144aaf3c58f70e0689d628', NULL, NULL, NULL, NULL, NULL, NULL, '2023-12-14 19:26:11', '2023-12-14 19:26:11'),
-(3, 'string', 'string', 'string', 'sha256$r47lBXU5eBlqDnDW$e4ae59fdb256c92ad6c9d4356c9d9f34bea57883560ac21ee64e68f5944d6a21', NULL, NULL, NULL, NULL, NULL, NULL, '2023-12-14 20:54:22', NULL);
+(1, 'test1@gmail.com', 'test1', 'test 1', 'sha256$u5d7e59uIqUu1uxT$696e4161b318fd7fa28df18dbfed1aed592437945dc4fa1da2ef2bae78e06b0b', NULL, NULL, NULL, NULL, NULL, 'C:/Users/LENOVO/Downloads/minatku-api/static/1_profile_picture.jpg', '2023-12-14 19:19:51', '2023-12-15 15:02:23'),
+(2, 'string1', 'string1', 'string', 'sha256$Rpf2vNLlv46pVtep$7d18e89d973e7b4df1d05ba25809e72b78f7ef7ca4144aaf3c58f70e0689d628', '2023-12-15', '', 'string', 'string', NULL, NULL, '2023-12-14 19:26:11', '2023-12-15 17:51:20'),
+(3, 'string', 'string', 'string', 'sha256$r47lBXU5eBlqDnDW$e4ae59fdb256c92ad6c9d4356c9d9f34bea57883560ac21ee64e68f5944d6a21', NULL, NULL, NULL, NULL, NULL, 'C:/Users/LENOVO/Downloads/minatku-api/static/3_profile_picture.jpg', '2023-12-14 20:54:22', '2023-12-15 13:49:02'),
+(4, 'cape@gmail.com', 'cape', 'cape cuy', 'sha256$PUSaAos3LuvViWtg$e4121943795736c62d65ace6e1c99b1d18865af23e6811327d20ca93f727eb71', NULL, NULL, NULL, NULL, NULL, 'C:/Users/LENOVO/Downloads/minatku-api/static/4_profile_picture.jpg', '2023-12-15 16:56:26', '2023-12-15 17:57:39');
 
 --
 -- Indexes for dumped tables
@@ -147,7 +150,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT untuk tabel `major_predict`
 --
 ALTER TABLE `major_predict`
-  MODIFY `id_major_predict` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_major_predict` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `pertanyaan`
@@ -159,7 +162,7 @@ ALTER TABLE `pertanyaan`
 -- AUTO_INCREMENT untuk tabel `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
