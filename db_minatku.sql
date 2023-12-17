@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 15 Des 2023 pada 15.54
+-- Waktu pembuatan: 17 Des 2023 pada 14.16
 -- Versi server: 10.4.27-MariaDB
 -- Versi PHP: 8.2.0
 
@@ -34,23 +34,19 @@ CREATE TABLE `major_predict` (
   `top_3` varchar(50) NOT NULL,
   `top_4` varchar(50) NOT NULL,
   `top_5` varchar(50) NOT NULL,
-  `tanggal` datetime NOT NULL DEFAULT current_timestamp(),
   `id_user` int(11) NOT NULL,
-  `create_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `update_at` datetime DEFAULT NULL ON UPDATE current_timestamp()
+  `create_at` datetime DEFAULT current_timestamp(),
+  `update_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `major_predict`
 --
 
-INSERT INTO `major_predict` (`id_major_predict`, `top_1`, `top_2`, `top_3`, `top_4`, `top_5`, `tanggal`, `id_user`, `create_at`, `update_at`) VALUES
-(1, 'Science', 'Technology', 'Social', 'Arts and Literature', 'Economics', '2023-12-11 21:09:31', 1, '2023-12-14 19:19:51', '2023-12-14 19:19:51'),
-(2, 'Technology', 'Science', 'Social', 'Economics', 'Arts and Literature', '2023-12-11 21:10:02', 1, '2023-12-14 19:19:51', '2023-12-14 19:19:51'),
-(3, 'Technology', 'Science', 'Social', 'Economics', 'Arts and Literature', '2023-12-14 20:12:39', 1, '2023-12-14 20:12:39', '2023-12-14 20:12:39'),
-(4, 'Technology', 'Science', 'Social', 'Economics', 'Arts and Literature', '2023-12-14 20:55:58', 3, '2023-12-14 20:55:58', NULL),
-(5, 'Technology', 'Science', 'Social', 'Economics', 'Arts and Literature', '2023-12-15 17:05:57', 4, '2023-12-15 17:05:57', NULL),
-(6, 'Technology', 'Science', 'Social', 'Economics', 'Arts and Literature', '2023-12-15 20:29:47', 4, '2023-12-15 20:29:47', NULL);
+INSERT INTO `major_predict` (`id_major_predict`, `top_1`, `top_2`, `top_3`, `top_4`, `top_5`, `id_user`, `create_at`, `update_at`) VALUES
+(1, 'Technology', 'Science', 'Social', 'Economics', 'Arts and Literature', 1, '2023-12-17 16:19:57', NULL),
+(2, 'Science', 'Technology', 'Social', 'Arts and Literature', 'Economics', 1, '2023-12-17 16:23:27', NULL),
+(3, 'Social', 'Economics', 'Technology', 'Arts and Literature', 'Science', 1, '2023-12-17 20:08:39', NULL);
 
 -- --------------------------------------------------------
 
@@ -60,30 +56,30 @@ INSERT INTO `major_predict` (`id_major_predict`, `top_1`, `top_2`, `top_3`, `top
 
 CREATE TABLE `pertanyaan` (
   `id_pertanyaan` int(11) NOT NULL,
+  `isi_pertanyaan` varchar(255) NOT NULL,
   `kode` varchar(10) NOT NULL,
-  `isi_pertanyaan` text NOT NULL,
-  `kelas_pertanyaan` varchar(255) NOT NULL,
-  `create_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `update_at` datetime DEFAULT NULL ON UPDATE current_timestamp()
+  `kelas_pertanyaan` varchar(50) NOT NULL,
+  `create_at` datetime DEFAULT current_timestamp(),
+  `update_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `pertanyaan`
 --
 
-INSERT INTO `pertanyaan` (`id_pertanyaan`, `kode`, `isi_pertanyaan`, `kelas_pertanyaan`, `create_at`, `update_at`) VALUES
-(1, 'R1', 'Menguji kualitas komponen sebelum pengiriman', 'Realistic', '2023-12-14 19:19:51', '2023-12-14 19:19:51'),
-(2, 'R2', 'Bekerja di anjungan pengeboran minyak lepas pantai', 'Realistic', '2023-12-14 19:19:51', '2023-12-14 19:19:51'),
-(3, 'I1', 'Mempelajari struktur tubuh manusia', 'Investigative', '2023-12-14 19:19:51', '2023-12-14 19:19:51'),
-(4, 'I2', 'Mempelajari perilaku hewan', 'Investigative', '2023-12-14 19:19:51', '2023-12-14 19:19:51'),
-(5, 'A1', 'Memimpin paduan suara musik', 'Artistic', '2023-12-14 19:19:51', '2023-12-14 19:19:51'),
-(6, 'A2', 'Menyutradarai sebuah drama', 'Artistic', '2023-12-14 19:19:51', '2023-12-14 19:19:51'),
-(7, 'S1', 'Memberikan bimbingan karir kepada orang-orang', 'Social', '2023-12-14 19:19:51', '2023-12-14 19:19:51'),
-(8, 'S2', 'Melakukan pekerjaan sukarela di organisasi', 'Social', '2023-12-14 19:19:51', '2023-12-14 19:19:51'),
-(9, 'E1', 'Menjual waralaba restoran kepada perorangan', 'Enterprising', '2023-12-14 19:19:51', '2023-12-14 19:19:51'),
-(10, 'E2', 'Menjual barang dagangan di toserba', 'Enterprising', '2023-12-14 19:19:51', '2023-12-14 19:19:51'),
-(11, 'C1', 'Membuat cek gaji bulanan untuk sebuah kantor', 'Conventional', '2023-12-14 19:19:51', '2023-12-14 19:19:51'),
-(12, 'C2', 'Menggunakan program komputer untuk menghasilkan tagihan pelanggan', 'Conventional', '2023-12-14 19:19:51', '2023-12-14 19:19:51');
+INSERT INTO `pertanyaan` (`id_pertanyaan`, `isi_pertanyaan`, `kode`, `kelas_pertanyaan`, `create_at`, `update_at`) VALUES
+(1, 'Menguji kualitas komponen sebelum pengiriman', 'R1', 'Realistic', '2023-12-17 16:16:03', NULL),
+(2, 'Bekerja di anjungan pengeboran minyak lepas pantai', 'R2', 'Realistic', '2023-12-17 16:16:03', NULL),
+(3, 'Mempelajari struktur tubuh manusia', 'I1', 'Investigative', '2023-12-17 16:16:03', NULL),
+(4, 'Mempelajari perilaku hewan', 'I2', 'Investigative', '2023-12-17 16:16:03', NULL),
+(5, 'Memimpin paduan suara musik', 'A1', 'Artistic', '2023-12-17 16:16:03', NULL),
+(6, 'Menyutradarai sebuah drama', 'A2', 'Artistic', '2023-12-17 16:16:03', NULL),
+(7, 'Memberikan bimbingan karir kepada orang-orang', 'S1', 'Social', '2023-12-17 16:16:03', NULL),
+(8, 'Melakukan pekerjaan sukarela di organisasi', 'S2', 'Social', '2023-12-17 16:16:03', NULL),
+(9, 'Menjual waralaba restoran kepada perorangan', 'E1', 'Enterprising', '2023-12-17 16:16:03', NULL),
+(10, 'Menjual barang dagangan di toserba', 'E2', 'Enterprising', '2023-12-17 16:16:03', NULL),
+(11, 'Membuat cek gaji bulanan untuk sebuah kantor', 'C1', 'Conventional', '2023-12-17 16:16:03', NULL),
+(12, 'Menggunakan program komputer untuk menghasilkan tagihan pelanggan', 'C2', 'Conventional', '2023-12-17 16:16:03', NULL);
 
 -- --------------------------------------------------------
 
@@ -98,24 +94,22 @@ CREATE TABLE `user` (
   `nama_lengkap` varchar(100) DEFAULT NULL,
   `password` varchar(100) NOT NULL,
   `tanggal_lahir` date DEFAULT NULL,
-  `gender` enum('Male','Female','Other') DEFAULT NULL,
+  `gender` enum('Laki-laki','Perempuan','Lainnya') DEFAULT NULL,
   `no_telepon` varchar(15) DEFAULT NULL,
   `lokasi` varchar(100) DEFAULT NULL,
   `is_premium` tinyint(1) DEFAULT NULL,
+  `is_admin` tinyint(1) DEFAULT 0,
   `foto_profil` varchar(255) DEFAULT NULL,
-  `create_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `update_at` datetime DEFAULT NULL ON UPDATE current_timestamp()
+  `create_at` datetime DEFAULT current_timestamp(),
+  `update_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `user`
 --
 
-INSERT INTO `user` (`id_user`, `email`, `username`, `nama_lengkap`, `password`, `tanggal_lahir`, `gender`, `no_telepon`, `lokasi`, `is_premium`, `foto_profil`, `create_at`, `update_at`) VALUES
-(1, 'test1@gmail.com', 'test1', 'test 1', 'sha256$u5d7e59uIqUu1uxT$696e4161b318fd7fa28df18dbfed1aed592437945dc4fa1da2ef2bae78e06b0b', NULL, NULL, NULL, NULL, NULL, 'C:/Users/LENOVO/Downloads/minatku-api/static/1_profile_picture.jpg', '2023-12-14 19:19:51', '2023-12-15 15:02:23'),
-(2, 'string1', 'string1', 'string', 'sha256$Rpf2vNLlv46pVtep$7d18e89d973e7b4df1d05ba25809e72b78f7ef7ca4144aaf3c58f70e0689d628', '2023-12-15', '', 'string', 'string', NULL, NULL, '2023-12-14 19:26:11', '2023-12-15 17:51:20'),
-(3, 'string', 'string', 'string', 'sha256$r47lBXU5eBlqDnDW$e4ae59fdb256c92ad6c9d4356c9d9f34bea57883560ac21ee64e68f5944d6a21', NULL, NULL, NULL, NULL, NULL, 'C:/Users/LENOVO/Downloads/minatku-api/static/3_profile_picture.jpg', '2023-12-14 20:54:22', '2023-12-15 13:49:02'),
-(4, 'cape@gmail.com', 'cape', 'cape cuy', 'sha256$PUSaAos3LuvViWtg$e4121943795736c62d65ace6e1c99b1d18865af23e6811327d20ca93f727eb71', NULL, NULL, NULL, NULL, NULL, 'C:/Users/LENOVO/Downloads/minatku-api/static/4_profile_picture.jpg', '2023-12-15 16:56:26', '2023-12-15 17:57:39');
+INSERT INTO `user` (`id_user`, `email`, `username`, `nama_lengkap`, `password`, `tanggal_lahir`, `gender`, `no_telepon`, `lokasi`, `is_premium`, `is_admin`, `foto_profil`, `create_at`, `update_at`) VALUES
+(1, 'test@gmail.com', 'test_123', 'testing', 'sha256$J3NPk7cBh4OJVCQm$22d59206e86ad2c71001641068d0a321ea5d523abc4d7345f0e97930e8336dba', '2003-12-17', 'Laki-laki', '081234567890', 'Bandung', NULL, 0, 'https://storage.googleapis.com/minatku_bucket/3c67505c-46db-4672-bd17-2124051a99d7.png', '2023-12-17 16:17:16', '2023-12-17 13:05:51');
 
 --
 -- Indexes for dumped tables
@@ -126,13 +120,15 @@ INSERT INTO `user` (`id_user`, `email`, `username`, `nama_lengkap`, `password`, 
 --
 ALTER TABLE `major_predict`
   ADD PRIMARY KEY (`id_major_predict`),
-  ADD KEY `id_user` (`id_user`);
+  ADD KEY `idx_majorpredict_user` (`id_user`);
 
 --
 -- Indeks untuk tabel `pertanyaan`
 --
 ALTER TABLE `pertanyaan`
-  ADD PRIMARY KEY (`id_pertanyaan`);
+  ADD PRIMARY KEY (`id_pertanyaan`),
+  ADD UNIQUE KEY `kode` (`kode`),
+  ADD KEY `idx_pertanyaan_kode` (`kode`);
 
 --
 -- Indeks untuk tabel `user`
@@ -140,7 +136,11 @@ ALTER TABLE `pertanyaan`
 ALTER TABLE `user`
   ADD PRIMARY KEY (`id_user`),
   ADD UNIQUE KEY `email` (`email`),
-  ADD UNIQUE KEY `username` (`username`);
+  ADD UNIQUE KEY `username` (`username`),
+  ADD UNIQUE KEY `uk_username` (`username`),
+  ADD UNIQUE KEY `uk_email` (`email`),
+  ADD KEY `idx_user_email` (`email`),
+  ADD KEY `idx_user_username` (`username`);
 
 --
 -- AUTO_INCREMENT untuk tabel yang dibuang
@@ -150,7 +150,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT untuk tabel `major_predict`
 --
 ALTER TABLE `major_predict`
-  MODIFY `id_major_predict` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_major_predict` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT untuk tabel `pertanyaan`
@@ -162,7 +162,7 @@ ALTER TABLE `pertanyaan`
 -- AUTO_INCREMENT untuk tabel `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)

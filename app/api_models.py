@@ -74,11 +74,16 @@ user_edit_model = api.model(
 pertanyaan_model = api.model(
     "Pertanyaan",
     {
-        "id_pertanyaan": fields.Integer,
         "isi_pertanyaan": fields.String(required=True),
         "kode": fields.String(required=True),
         "kelas_pertanyaan": fields.String(required=True),
-        "create_at": fields.DateTime,
-        "update_at": fields.DateTime,
+    },
+)
+pertanyaan_edit_model = api.model(
+    "PertanyaanEdit",
+    {
+        "isi_pertanyaan": fields.String,
+        "kode": fields.String,
+        "kelas_pertanyaan": fields.String,
     },
 )

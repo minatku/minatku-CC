@@ -65,7 +65,7 @@ class MajorPredictResource(Resource):
     @ns_predict.doc(security="jsonWebToken")
     def get(self, user_id):
         # Check if the current user has the permission to access major predict data
-        if current_user.id_user != user_id:
+        if current_user.id_user != user_id and current_user.is_admin ==False:
             return {"error": "Unauthorized access to major predict data"}, 403
 
         # Query major predict data for the specified user ID
@@ -97,24 +97,26 @@ class AllMajorPredictResource(Resource):
         # # Check if the current user has the permission to access all major predict data
         # if not current_user.is_admin:  # Assuming you have an 'is_admin' attribute in your User model
         #     return {"error": "Unauthorized access to all major predict data"}, 403
+        if current_user.is_admin ==True:
+            # Query all major predict data
+            all_major_predict_data = MajorPredict.query.all()
 
-        # Query all major predict data
-        all_major_predict_data = MajorPredict.query.all()
+            # Format the major predict results to be returned to the client
+            results = []
+            for major_predict_data in all_major_predict_data:
+                result = {
+                    "id_major_predict": major_predict_data.id_major_predict,
+                    "top_1": major_predict_data.top_1,
+                    "top_2": major_predict_data.top_2,
+                    "top_3": major_predict_data.top_3,
+                    "top_4": major_predict_data.top_4,
+                    "top_5": major_predict_data.top_5,
+                    "id_user": major_predict_data.id_user,
+                    "create_at": major_predict_data.create_at.strftime("%Y-%m-%dT%H:%M:%S") if major_predict_data.create_at else None,
+                    "update_at": major_predict_data.update_at.strftime("%Y-%m-%dT%H:%M:%S") if major_predict_data.update_at else None,
+                }
+                results.append(result)
 
-        # Format the major predict results to be returned to the client
-        results = []
-        for major_predict_data in all_major_predict_data:
-            result = {
-                "id_major_predict": major_predict_data.id_major_predict,
-                "top_1": major_predict_data.top_1,
-                "top_2": major_predict_data.top_2,
-                "top_3": major_predict_data.top_3,
-                "top_4": major_predict_data.top_4,
-                "top_5": major_predict_data.top_5,
-                "id_user": major_predict_data.id_user,
-                "create_at": major_predict_data.create_at.strftime("%Y-%m-%dT%H:%M:%S") if major_predict_data.create_at else None,
-                "update_at": major_predict_data.update_at.strftime("%Y-%m-%dT%H:%M:%S") if major_predict_data.update_at else None,
-            }
-            results.append(result)
-
-        return results
+            return results
+        else:
+            return {"message": "Unauthorized. Only admins can perform this action."}, 403

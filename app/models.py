@@ -9,10 +9,11 @@ class User(db.Model):
     nama_lengkap = db.Column(db.String(100))
     password = db.Column(db.String(100), nullable=False)
     tanggal_lahir = db.Column(db.Date)
-    gender = db.Column(db.Enum('Male', 'Female', 'Other'))
+    gender = db.Column(db.Enum('Laki-laki', 'Perempuan', 'Lainnya'))
     no_telepon = db.Column(db.String(15))
     lokasi = db.Column(db.String(100))
     is_premium = db.Column(db.Boolean)
+    is_admin = db.Column(db.Boolean, default=False)  # Kolom baru untuk menentukan apakah user adalah admin
     foto_profil = db.Column(db.String(255))
     create_at = db.Column(db.DateTime, default=datetime.now)
     update_at = db.Column(db.DateTime)

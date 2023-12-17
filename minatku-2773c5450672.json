@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "minatku",
+  "private_key_id": "2773c545067224a359e7079f12519f7ec85d362e",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDuzobSYsVj5Q2J\nMuK7YRBNTUV7uToaDihHOYt5doO3WCo2qG1arVmQtFzcJ/oEcpIkmdKPIV4t+I6b\nJJcg3tI5Q2dsaAgy3pMyLyUa6R2B9ywfLFBxlQx+zRw4cfDsKZXKurR6oSb+G2Ev\nsYyIe+IiCgxOIoGZPf3Hks+kY0k/hTTTacbq4P5BYLdq/cOhxv9ylZjNWLx3X4fV\nw0hVXN+zWqP15HfGI+JMuhM7HcalC2a+O2J2aOcUmIa86Qt7x8aauA0TfUFSTsSo\nxCc+IjbUMk3fD9jJ3PZ2pLI5ymRKfcUJ97RA4F6uFSDhKcKneheRXPA92yEsgX7S\n3C1yyCrtAgMBAAECggEAFg/JX81VLAXgqsCjNqlgbqvJVAVIK1kMeowD6Rw8Tedc\nuwDzXVGveRFYlNQyok+NVclKLQPppfiVABswxQ4gwL6L4vV3cG+kjJnTZTmNCtEx\nZ83ZvqyE44ACb+qC1eZ/mqOGAeA6cHZKE7Rk5cUAHqHsAhno/CXAeLwE58xuW2o+\nwt+0SYEVZfEWt48JW1JCW1Fk9n1Sm7CZKMynkdzAP+N0anEXHA/9KqdZ9+LvC7T8\n5JgkqEJDCDlPS4UQeS293b9y0xpX9gV7BhEExh5Ga4BtT6RGUIFymyNbsIslwbOa\nwp9kNslQ8kQNjpnE8d+wpF1mNqLQc5PmsEE3qCW1IQKBgQD+5tEpZPKGccEbQuzS\nzpYehCDR2AoWmYkTvQUQsk4a+JcfddYsCkY7o80P0Pqmr1DCJoAAc36X7saxYQCg\n0/BB9gm9YcMubGul1v+Wl1+IhS4K4IoCsFmFTu956mUGhCotx/MWZda8V1J7Nkx5\nbxQdaLqDPt06+3aV5Mkq/T3mfQKBgQDv1fSNUfNVqrCveTIdcGnz3u2GP+cdZiB/\nKGqmu9fGdQ1fVpOMGkdZC0uoZCiKNckprHhVSdkGQM16P0nbbycnz/GfRJad/gh0\nOm/GJ3ze5psyhbJXMp5D/mDPXm8vL4gQrxRfsVMXHrb8EMBtHLf7zjC0ElW80pbq\n3k6MGD/RMQKBgAiBlVtHRhyccTBCtHp4cGQGTr4R8ow8hWmGNkQPXzHhN9HR8dq4\nYQ2ecrpjY+nqEczY0g6xy/iv/CtxLD8xs2PQHRUXzRaggZsgKJlS5do9b4LnaVOb\npPEg6DbuTn7ALFQoxwDpVxgj5dm8vyKSRV6R3x+AGovcVmG8J8ZqewVVAoGAc72R\n7h0tTBs6dwQK3lAgoZLkl5QBKZvedN8BUQN3pwtX77ltLQCFjAA6e8ISGljIgnb7\n/1TLCgx93M/sCZyDjd/5H75O3WH5nHWS+VKXHU62eNQyc4g2/mMlPw24pFHQ3RRQ\nxblietbUwaIn6sAgPcGMmWn7vEr4j9HGoC8XpRECgYEAtH6PoHBF5WZGoKZcZTKJ\nI801gtL0WD9gOWQMQ5W/vqoDWBfntrxEkhhFMhvBan3XHeLcgXnTWuv+A0A3D3kH\nqWeqrn0UaTC32jjuefS2E9agh2p0/b0NKrM/r3jQuKyKJW7s5lCSy+42YED+Ubjj\nFEwf0xlpzCa2mlD+bjo+u0s=\n-----END PRIVATE KEY-----\n",
+  "client_email": "cloudstorageminatku@minatku.iam.gserviceaccount.com",
+  "client_id": "114756384679584535428",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/cloudstorageminatku%40minatku.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

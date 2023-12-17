@@ -10,6 +10,13 @@ from http import HTTPStatus
 # Namespace
 ns_auth = Namespace("Auth", description="buat autentikasi", authorizations=authorizations)
 
+
+# Endpoint for Hello World
+@ns_auth.route("/hello-world")
+class HelloWorld(Resource):
+    def get(self):
+        return {"message": "Hello, World!"}
+    
 # Endpoint for user registration
 @ns_auth.route("/register")
 class Register(Resource):

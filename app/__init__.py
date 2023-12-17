@@ -1,5 +1,5 @@
 from flask import Flask 
-
+from flask_cors import CORS
 from .extensions import api, db, jwt
 from .user import ns_user,UserProfilePicture
 from .pertanyaan import ns_pertanyaan
@@ -11,6 +11,7 @@ def create_app():
 
     app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://root:@localhost/db_minatku"
     app.config["JWT_SECRET_KEY"] = "thisisasecret"
+    CORS(app)
     api.init_app(app)
     db.init_app(app)
     jwt.init_app(app)
