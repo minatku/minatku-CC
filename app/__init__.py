@@ -24,7 +24,9 @@ def create_app():
 
     app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
     app.config["JWT_SECRET_KEY"] = "thisisasecret"
-
+    # Set the expiration time for the access token to 1 hour (3600 seconds)
+    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = 3600
+    
     CORS(app)
     api.init_app(app)
     db.init_app(app)
