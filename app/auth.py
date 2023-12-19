@@ -15,7 +15,7 @@ ns_auth = Namespace("Auth", description="buat autentikasi", authorizations=autho
 @ns_auth.route("/hello-world")
 class HelloWorld(Resource):
     def get(self):
-        return {"message": "Hello, CICD sukses!"}
+        return {"message": "Hello, CICD sukses!horeeee"}
     
 @ns_auth.route("/register")
 class Register(Resource):
