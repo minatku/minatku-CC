@@ -1,0 +1,23 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/minatku-cc', '-f', 'Dockerfile', '.' ]
+    
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/minatku-cc']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        gcloud run deploy minatku-cc \
+          --image gcr.io/$PROJECT_ID/minatku-cc \
+          --region asia-southeast2 \
+          --platform managed \
+          --allow-unauthenticated
+
+# Store images
+#images:
+ # - 'gcr.io/$PROJECT_ID/minatku-cc'
+options:
+  logging: CLOUD_LOGGING_ONLY
