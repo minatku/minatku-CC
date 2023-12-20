@@ -244,3 +244,28 @@ class GetAllUsers(Resource):
         except Exception as e:
             # Handle any exceptions and return an error message
             return {"error": True, "message": f"An error occurred: {str(e)}", "users_data": None}, HTTPStatus.INTERNAL_SERVER_ERROR
+
+@ns_user.route("/user/<int:user_id>/premium")
+class UserPremium(Resource):
+    method_decorators = [jwt_required()]
+
+    @ns_user.doc(security="jsonWebToken")
+    def put(self, user_id):
+        try:
+            # Check if the current user has permission
+            if current_user.id_user != user_id and not current_user.is_admin:
+                return {"error": True, "message": "Unauthorized access to user data"}, HTTPStatus.FORBIDDEN
+
+            # Retrieve the user from the database
+            user = User.query.get(user_id)
+            if not user:
+                return {"error": True, "message": "User not found"}, HTTPStatus.NOT_FOUND
+
+            # Update the is_premium status
+            user.is_premium = True
+            db.session.commit()
+
+            return {"error": False, "message": f"Premium status updated successfully for user {user_id}"}, HTTPStatus.OK
+
+        except Exception as e:
+            return {"error": True, "message": f"An error occurred: {str(e)}"}, HTTPStatus.INTERNAL_SERVER_ERROR
