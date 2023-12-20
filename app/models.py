@@ -1,7 +1,7 @@
 from .extensions import db
 from sqlalchemy.orm import relationship
 from datetime import datetime
-
+blacklisted_tokens = []  # Corrected variable name
 class User(db.Model):
     id_user = db.Column(db.Integer, primary_key=True, autoincrement=True)
     email = db.Column(db.String(100), unique=True, nullable=False)
@@ -17,6 +17,16 @@ class User(db.Model):
     foto_profil = db.Column(db.String(255))
     create_at = db.Column(db.DateTime, default=datetime.now)
     update_at = db.Column(db.DateTime)
+    @staticmethod
+    def revoke_token(jti):
+        # Implement the logic to revoke the token
+        # This method should perform whatever action is necessary to invalidate the token
+        # For example, you can store the JTI (JSON Token Identifier) in a blacklist
+        # and check against this blacklist during token verification.
+
+        # For demonstration purposes, let's assume there's a list named 'blacklisted_tokens'
+        blacklisted_tokens.append(jti)
+
 
 class MajorPredict(db.Model):
     id_major_predict = db.Column(db.Integer, primary_key=True, autoincrement=True)
