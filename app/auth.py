@@ -1,7 +1,7 @@
 from flask_restx import Resource, Namespace
 from flask import request
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_jwt_extended import create_access_token, jwt_required, current_user, get_jwt_identity, create_refresh_token
+from flask_jwt_extended import create_access_token, jwt_required, current_user, get_jwt_identity, create_refresh_token, get_jwt
 from .extensions import authorizations, db
 from .models import User
 from .api_models import user_registration_model, login_model
@@ -125,3 +125,18 @@ class Refresh(Resource):
         except Exception as e:
             # Handle any exceptions and return an error message
             return {'error': True, 'message': f'An error occurred: {str(e)}', 'access_token': None}, HTTPStatus.INTERNAL_SERVER_ERROR
+
+@ns_auth.route("/logout")
+class Logout(Resource):
+    method_decorators = [jwt_required()]
+
+    @ns_auth.doc(security="jsonWebToken")
+    def post(self):
+        try:
+            # Blacklist the access token
+            jti = get_jwt()["jti"]
+            User.revoke_token(jti)
+
+            return {"error": False, "message": "Logout successful"}, 200
+        except Exception as e:
+            return {"error": True, "message": str(e)}, 500
