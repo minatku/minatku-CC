@@ -264,31 +264,3 @@ class UserPremium(Resource):
         except Exception as e:
             return {"error": True, "message": f"An error occurred: {str(e)}"}, HTTPStatus.INTERNAL_SERVER_ERROR
 
-def get_secret_from_json(json_file):
-    with open(json_file, 'r') as file:
-        secret_data = json.load(file)
-    return secret_data
-@ns_user.route("/show-db-json")
-class ShowDbJson(Resource):
-    def get(self):
-        try:
-            # Retrieve the contents of the database credentials JSON from Secret Manager
-            db_json = get_secret_from_json("db-credentials.json")
-
-            return {"error": False, "message": "Database credentials JSON retrieved successfully", "db_json": db_json}, HTTPStatus.OK
-        except Exception as e:
-            # Handle any exceptions and return an error message
-            return {"error": True, "message": f"An error occurred: {str(e)}"}, HTTPStatus.INTERNAL_SERVER_ERROR
-
-# Endpoint to display contents of the JWT key JSON
-@ns_user.route("/show-jwt-json")
-class ShowJwtJson(Resource):
-    def get(self):
-        try:
-            # Retrieve the contents of the JWT key JSON from Secret Manager
-            jwt_json = get_secret_from_json("jwt-secret-key.json")
-
-            return {"error": False, "message": "JWT key JSON retrieved successfully", "jwt_json": jwt_json}, HTTPStatus.OK
-        except Exception as e:
-            # Handle any exceptions and return an error message
-            return {"error": True, "message": f"An error occurred: {str(e)}"}, HTTPStatus.INTERNAL_SERVER_ERROR
