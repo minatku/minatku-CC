@@ -264,7 +264,10 @@ class UserPremium(Resource):
         except Exception as e:
             return {"error": True, "message": f"An error occurred: {str(e)}"}, HTTPStatus.INTERNAL_SERVER_ERROR
 
-
+def get_secret_from_json(json_file):
+    with open(json_file, 'r') as file:
+        secret_data = json.load(file)
+    return secret_data
 @ns_user.route("/show-db-json")
 class ShowDbJson(Resource):
     def get(self):
