@@ -16,9 +16,15 @@ def get_secret_from_json(json_file):
 def create_app():
     app = Flask(__name__)
 
+     # Cloud SQL database configuration
     # Cloud SQL database configuration
-    db_credentials = get_secret_from_json("db-credentials.json")
-    app.config["SQLALCHEMY_DATABASE_URI"] = f"mysql+mysqlconnector://{db_credentials['db_user']}:{db_credentials['db_password']}@{db_credentials['db_host']}:{db_credentials['db_port']}/{db_credentials['db_name']}"
+    db_user = "root"
+    db_password = "minatku1234567"
+    db_name = "db_minatku"
+    db_socket_dir = "/cloudsql"
+    cloud_sql_connection_name = "minatku:asia-southeast2:dbminatku"
+    db_host = "34.101.48.255"  # Ganti dengan alamat IP publik database
+    db_port = 3306
 
     # JWT configuration
     jwt_secret_key = get_secret_from_json("jwt-secret-key.json")
