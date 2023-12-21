@@ -271,6 +271,7 @@ class UserPremium(Resource):
         except Exception as e:
             return {"error": True, "message": f"An error occurred: {str(e)}"}, HTTPStatus.INTERNAL_SERVER_ERROR
 
+
 @ns_user.route("/debug/show-credentials")
 class DebugShowCredentials(Resource):
     method_decorators = [jwt_required()]
