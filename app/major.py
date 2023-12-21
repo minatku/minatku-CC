@@ -11,7 +11,7 @@ from http import HTTPStatus
 classes = ['Science', 'Arts and Literature', 'Economics', 'Technology', 'Social']
 
 # Namespace
-ns_predict = Namespace("Major_Predict", description="buat prediksi", authorizations=authorizations)
+ns_predict = Namespace("Major_Predict", description="endpoint untuk prediksi major", authorizations=authorizations)
 
 @ns_predict.route("/predict")
 class PredictResource(Resource):
