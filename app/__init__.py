@@ -8,6 +8,11 @@ from .major import ns_predict
 from .models import User
 import json
 
+def get_secret_from_json(json_file):
+    with open(json_file, 'r') as file:
+        secret_data = json.load(file)
+    return secret_data
+
 def create_app():
     app = Flask(__name__)
 
@@ -37,7 +42,3 @@ def create_app():
 
     return app
 
-def get_secret_from_json(json_file):
-    with open(json_file, 'r') as file:
-        secret_data = json.load(file)
-    return secret_data
