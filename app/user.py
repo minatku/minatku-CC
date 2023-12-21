@@ -270,3 +270,25 @@ class UserPremium(Resource):
 
         except Exception as e:
             return {"error": True, "message": f"An error occurred: {str(e)}"}, HTTPStatus.INTERNAL_SERVER_ERROR
+
+@ns_user.route("/debug/show-credentials")
+class DebugShowCredentials(Resource):
+    method_decorators = [jwt_required()]
+
+    @ns_user.doc(security="jsonWebToken")
+    def get(self):
+        try:
+            # Ensure that only administrators can access the debug endpoint
+            if not current_user.is_admin:
+                return {"error": True, "message": "Unauthorized access to debug endpoint"}, HTTPStatus.FORBIDDEN
+
+            # Retrieve and return the credentials from the environment variable
+            credentials_json = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS_JSON")
+            if credentials_json:
+                # If you choose to display the credentials, ensure it's only for debugging purposes
+                return {"credentials": credentials_json}, HTTPStatus.OK
+            else:
+                return {"error": True, "message": "Credentials not found"}, HTTPStatus.NOT_FOUND
+
+        except Exception as e:
+            return {"error": True, "message": f"An error occurred: {str(e)}"}, HTTPStatus.INTERNAL_SERVER_ERROR
