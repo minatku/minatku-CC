@@ -8,7 +8,7 @@ from .api_models import user_registration_model, login_model
 from datetime import datetime
 from http import HTTPStatus
 # Namespace
-ns_auth = Namespace("Auth", description="buat autentikasi", authorizations=authorizations)
+ns_auth = Namespace("Auth", description="endpoint untuk autentikasi", authorizations=authorizations)
 
 
 # Endpoint for Hello World
