@@ -1,9 +1,14 @@
 # CH2-PS229 MinatKu
+![13](https://github.com/minatku/minatku-CC/assets/100481579/4088e023-208c-4fc9-97a8-3ac26f27b34c)
 
+
+Hello guys!! this is backend from application Minatku
 # Table of Contents
 * [General Info](#general-info)
 * [Roadmap](#roadmap)
 * [Python Libraries](#python-libraries)
+* Services Used in GCP(#services)
+* Cloud Architecture(architecture)
 * [Contact](#contact)
 * [Documentation](#documentation)
 
@@ -22,6 +27,19 @@ We built the model in Google Colab using the following libraries
 * [TensorFlow](https://www.tensorflow.org/)
 * [Keras](https://keras.io/)
 * [Scikit Learn](https://scikit-learn.org/stable/)
+
+# Services Used in GCP
+What Services that we use in GCP?
+| Google Cloud Services | Platform             |
+|------------------------|----------------------|
+| Cloud App Engine       | NodeJS (Backend)     |
+| Cloud Storage          | Images & Dataset     |
+| Cloud SQL              | Database (MySQL)     |
+| Cloud Build            | CI/CD                |
+
+# Cloud Architecture
+![MinatKu - CH2-PS229](https://github.com/minatku/minatku-CC/assets/100481579/3da95893-8808-4b68-a81d-2acd887369d0)
+
 
 # Contact
 For further information, kindly contact to :
