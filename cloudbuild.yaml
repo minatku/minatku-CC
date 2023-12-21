@@ -4,10 +4,8 @@ steps:
     args:
       - '-c'
       - |
-        # Retrieve the secret from Secret Manager
-        SECRET_VALUE=$(gcloud secrets versions access latest --secret=minatku_cloud_storage)
-        # Set the credential as an environment variable
-        export GOOGLE_APPLICATION_CREDENTIALS_JSON="$SECRET_VALUE"
+        # Retrieve the secret from Secret Manager and write it to credentials.json
+        gcloud secrets versions access latest --secret=minatku_cloud_storage --project=minatku > /workspace/app/credentials.json
 
   - name: 'gcr.io/cloud-builders/docker'
     args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/minatku-cc', '-f', 'Dockerfile', '.' ]
