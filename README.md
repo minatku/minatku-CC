@@ -33,7 +33,7 @@ What Services that we use in GCP?
 | Google Cloud Services | Platform             |
 |------------------------|----------------------|
 | Cloud App Engine       | NodeJS (Backend)     |
-| Cloud Storage          | Images & Dataset     |
+| Cloud Storage          | Images               |
 | Cloud SQL              | Database (MySQL)     |
 | Cloud Build            | CI/CD                |
 
