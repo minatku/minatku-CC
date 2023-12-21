@@ -11,7 +11,7 @@ import io
 import uuid
 from http import HTTPStatus
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS_JSON"] = "/app/credentials.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS_JSON"] = "credentials.json"
 
 # Namespace
 ns_user = Namespace("User", description="buat proses usernya minatku", authorizations=authorizations)
