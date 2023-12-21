@@ -10,15 +10,8 @@ from google.cloud import storage
 import io
 import uuid
 from http import HTTPStatus
-# # Get the current file's directory
-# current_file_directory = os.path.dirname(__file__)
 
-# # Construct the absolute path to the credentials file
-# credentials_path = os.path.join(current_file_directory, "minatku-8f0163a46a4c.json")
-# print("Absolute path to credentials file:", credentials_path)
-
-# os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "minatku-2773c5450672.json"
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS_JSON")
+os.environ["GOOGLE_APPLICATION_CREDENTIALS_JSON"] = "/app/credentials.json"
 
 # Namespace
 ns_user = Namespace("User", description="buat proses usernya minatku", authorizations=authorizations)
