@@ -6,32 +6,24 @@ from .pertanyaan import ns_pertanyaan
 from .auth import ns_auth
 from .major import ns_predict
 from .models import User
-from google.cloud import secretmanager
-
-def fetch_secret(secret_name):
-    client = secretmanager.SecretManagerServiceClient()
-    secret_path = f"projects/minatku/secrets/{secret_name}/versions/latest"
-    response = client.access_secret_version(name=secret_path)
-    return response.payload.data.decode('UTF-8')
 
 def create_app():
     app = Flask(__name__)
 
-    # Fetch database credentials from Secret Manager
-    db_user = fetch_secret("db-credentials")["db_user"]
-    db_password = fetch_secret("db-credentials")["db_password"]
-    db_name = fetch_secret("db-credentials")["db_name"]
-    db_host = fetch_secret("db-credentials")["db_host"]
-    db_port = fetch_secret("db-credentials")["db_port"]
-
-    # Fetch JWT secret key from Secret Manager
-    jwt_secret_key = fetch_secret("jwt-secret-key")["jwt_secret_key"]
+    # Cloud SQL database configuration
+    db_user = "root"
+    db_password = "minatku1234567"
+    db_name = "db_minatku"
+    db_socket_dir = "/cloudsql"
+    cloud_sql_connection_name = "minatku:asia-southeast2:dbminatku"
+    db_host = "34.101.48.255"  # Ganti dengan alamat IP publik database
+    db_port = 3306
 
     # Configure the connection string
     db_uri = f"mysql+mysqlconnector://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"
 
     app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
-    app.config["JWT_SECRET_KEY"] = jwt_secret_key
+    app.config["JWT_SECRET_KEY"] = "thisisasecret"
     # Set the expiration time for the access token to 1 hour (3600 seconds)
     app.config["JWT_ACCESS_TOKEN_EXPIRES"] = 3600
     
