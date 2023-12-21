@@ -5,27 +5,29 @@ steps:
       - '-c'
       - |
         # Retrieve the secret from Secret Manager
-        SECRET_VALUE=$(gcloud secrets versions access latest --secret=YOUR_SECRET_NAME)
+        SECRET_VALUE=$(gcloud secrets versions access latest --secret=minatku_cloud_storage)
         # Set the credential as an environment variable
         export GOOGLE_APPLICATION_CREDENTIALS_JSON="$SECRET_VALUE"
 
   - name: 'gcr.io/cloud-builders/docker'
     args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/minatku-cc', '-f', 'Dockerfile', '.' ]
+    
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/minatku-cc']
 
   - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
     args:
-      - 'run'
-      - 'deploy'
-      - 'minatku-cc'
-      - '--image'
-      - 'gcr.io/$PROJECT_ID/minatku-cc'
-      - '--region'
-      - 'asia-southeast2'
-      - '--platform'
-      - 'managed'
-      - '--allow-unauthenticated'
+      - '-c'
+      - |
+        gcloud run deploy minatku-cc \
+          --image gcr.io/$PROJECT_ID/minatku-cc \
+          --region asia-southeast2 \
+          --platform managed \
+          --allow-unauthenticated
 
-# ... steps lainnya ...
-
+# Store images
+#images:
+ # - 'gcr.io/$PROJECT_ID/minatku-cc'
 options:
   logging: CLOUD_LOGGING_ONLY
