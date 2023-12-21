@@ -1,3 +1,5 @@
+# Mengambil kredensial dari Secret Manager dan menuliskannya ke file JSON
+RUN gcloud secrets versions access latest --secret=minatku_cloud_storage --project=minatku > /app/credentials.json
 # Use the official Python image as a base image
 FROM python:3.9
 
