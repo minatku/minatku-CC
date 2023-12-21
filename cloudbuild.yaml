@@ -21,6 +21,10 @@ steps:
     args:
       - '-c'
       - |
+        # Explicitly copy db-credentials.json to the build directory
+        cp /workspace/db-credentials.json /workspace
+        cp /workspace/jwt-secret-key.json /workspace
+        
         gcloud run deploy minatku-cc \
           --image gcr.io/$PROJECT_ID/minatku-cc \
           --region asia-southeast2 \
