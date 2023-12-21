@@ -1,20 +1,23 @@
-# Mengambil kredensial dari Secret Manager dan menuliskannya ke file JSON
-RUN gcloud secrets versions access latest --secret=minatku_cloud_storage --project=minatku > /app/credentials.json
+# Use the official Google Cloud SDK image as a base image
+FROM gcr.io/google.com/cloudsdktool/cloud-sdk:latest
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the secret credentials directly from Secret Manager to credentials.json
+RUN gcloud secrets versions access latest --secret=minatku_cloud_storage --project=minatku --format='json' | jq -r '.payload.data' | base64 --decode > /app/credentials.json
+
 # Use the official Python image as a base image
 FROM python:3.9
 
 ENV PORT 8000
 ENV HOST 0.0.0.0
 # Set the environment variable for Google Cloud credentials
-ENV GOOGLE_APPLICATION_CREDENTIALS_JSON $SECRET_VALUE
+ENV GOOGLE_APPLICATION_CREDENTIALS /app/credentials.json
 EXPOSE 8000
-ENV FLASK_APP=app:create_app()
-# Set environment variables
-ENV PYTHONUNBUFFERED 1
-ENV APP_HOME /app
 
-# Set working directory
-WORKDIR $APP_HOME
+# Set the working directory
+WORKDIR /app
 
 # Copy requirements.txt and install dependencies
 COPY requirements.txt .
@@ -24,4 +27,5 @@ RUN pip install --upgrade pip && \
 # Copy the application code into the container
 COPY . .
 
-ENTRYPOINT ["flask", "run"]
+# Entry point
+CMD ["flask", "run"]
