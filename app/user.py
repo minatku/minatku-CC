@@ -17,8 +17,8 @@ from http import HTTPStatus
 # credentials_path = os.path.join(current_file_directory, "minatku-8f0163a46a4c.json")
 # print("Absolute path to credentials file:", credentials_path)
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "minatku-2773c5450672.json"
-# os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS_JSON")
+# os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "minatku-2773c5450672.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS_JSON")
 
 # Namespace
 ns_user = Namespace("User", description="buat proses usernya minatku", authorizations=authorizations)
