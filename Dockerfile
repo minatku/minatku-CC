@@ -3,7 +3,8 @@ FROM python:3.9
 
 ENV PORT 8000
 ENV HOST 0.0.0.0
-
+# Set the environment variable for Google Cloud credentials
+ENV GOOGLE_APPLICATION_CREDENTIALS_JSON $SECRET_VALUE
 EXPOSE 8000
 ENV FLASK_APP=app:create_app()
 # Set environment variables
