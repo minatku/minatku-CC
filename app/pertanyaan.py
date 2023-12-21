@@ -6,7 +6,7 @@ from .api_models import pertanyaan_model, pertanyaan_edit_model
 from flask_jwt_extended import jwt_required, current_user
 from http import HTTPStatus
 
-ns_pertanyaan = Namespace("Pertanyaan", description="data buat assesment", authorizations=authorizations)
+ns_pertanyaan = Namespace("Pertanyaan", description="endpoint untuk data assesment", authorizations=authorizations)
 
 @ns_pertanyaan.route("/pertanyaan")
 class PertanyaanResource(Resource):
