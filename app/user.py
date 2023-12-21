@@ -14,7 +14,7 @@ from http import HTTPStatus
 os.environ["GOOGLE_APPLICATION_CREDENTIALS_JSON"] = "credentials.json"
 
 # Namespace
-ns_user = Namespace("User", description="buat proses usernya minatku", authorizations=authorizations)
+ns_user = Namespace("User", description="endpoint untuk proses user minatku", authorizations=authorizations)
 
 # Add a parser for file upload
 upload_parser = ns_user.parser()
