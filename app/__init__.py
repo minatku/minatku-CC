@@ -14,17 +14,12 @@ def create_app():
     db_user = "root"
     db_password = "minatku1234567"
     db_name = "db_minatku"
-    db_socket_dir = "/cloudsql"
-    cloud_sql_connection_name = "minatku:asia-southeast2:dbminatku"
     db_host = "34.101.48.255"  # Ganti dengan alamat IP publik database
     db_port = 3306
-
-    # Configure the connection string
     db_uri = f"mysql+mysqlconnector://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"
-
     app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
+    
     app.config["JWT_SECRET_KEY"] = "thisisasecret"
-    # Set the expiration time for the access token to 1 hour (3600 seconds)
     app.config["JWT_ACCESS_TOKEN_EXPIRES"] = 3600
     
     CORS(app)
