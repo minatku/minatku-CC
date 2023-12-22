@@ -12,10 +12,10 @@ def create_app():
     app = Flask(__name__)
 
     # Cloud SQL database configuration
-    db_user = "root"
-    db_password = "minatku1234567"
-    db_name = "db_minatku"
-    db_host = "34.101.48.255"  # Ganti dengan alamat IP publik database
+    db_user = "your_user_name"
+    db_password = "your_db_password"
+    db_name = "your_db_name"
+    db_host = "your_db_host"  # Ganti dengan alamat IP publik database
     db_port = 3306
     db_uri = f"mysql+mysqlconnector://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"
     app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
