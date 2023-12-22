@@ -7,7 +7,7 @@ from .auth import ns_auth
 from .major import ns_predict
 from .models import User
 import os
-os.environ["JWT_SECRET_KEY"] = access_secret_version("jwt-secret-key")
+
 def create_app():
     app = Flask(__name__)
 
