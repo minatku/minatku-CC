@@ -6,7 +6,8 @@ from .pertanyaan import ns_pertanyaan
 from .auth import ns_auth
 from .major import ns_predict
 from .models import User
-
+import os
+os.environ["JWT_SECRET_KEY"] = access_secret_version("jwt-secret-key")
 def create_app():
     app = Flask(__name__)
 
@@ -19,7 +20,7 @@ def create_app():
     db_uri = f"mysql+mysqlconnector://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"
     app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
     
-    app.config["JWT_SECRET_KEY"] = "thisisasecret"
+    app.config["JWT_SECRET_KEY"] = os.environ.get("JWT_SECRET_KEY")
     app.config["JWT_ACCESS_TOKEN_EXPIRES"] = 3600
     
     CORS(app)
