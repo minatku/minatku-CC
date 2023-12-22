@@ -6,7 +6,8 @@ steps:
       - |
         # Retrieve the secret from Secret Manager and write it to credentials.json
         gcloud secrets versions access latest --secret=minatku_cloud_storage --project=minatku --format='json' | jq -r '.payload.data' | base64 --decode > /workspace/cloud_storage_credential.json
-        gcloud secrets versions access latest --secret=jwt-secret-key --project=minatku --format='json' | jq -r '.payload.data' | base64 --decode > /workspace/jwt-secret-key.json
+        gcloud secrets versions access latest --secret=jwt-secret-key --project=minatku --format='json' | jq -r '.payload.data' | base64 --decode > /workspace/jwt-secret-key
+
 
   - name: 'gcr.io/cloud-builders/docker'
     args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/minatku-cc', '-f', 'Dockerfile', '.' ]
